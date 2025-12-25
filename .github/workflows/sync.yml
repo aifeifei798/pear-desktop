@@ -1,0 +1,39 @@
+name: Upstream Sync
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # 每天国际标准时间 0点 (北京时间早上8点) 执行一次
+  workflow_dispatch: # 允许你在 Actions 页面手动点击按钮触发
+
+jobs:
+  sync_latest_from_upstream:
+    name: Sync latest commits from upstream repo
+    runs-on: ubuntu-latest
+    if: ${{ github.event.repository.fork }} # 只有当是 fork 的仓库时才运行
+
+    steps:
+      # 第一步：检出你的代码
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+
+      # 第二步：同步上游代码
+      - name: Sync upstream changes
+        id: sync
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+        with:
+          upstream_sync_repo: pear-devs/pear-desktop # 上游仓库地址
+          upstream_sync_branch: master    # 上游仓库的分支 (通常是 master 或 main)
+          target_sync_branch: master      # 你仓库的分支
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }} # 自动生成的令牌，无需配置
+          test_mode: false
+
+      # 第三步：如果同步失败（比如有冲突），打印提示
+      - name: Sync check
+        if: failure()
+        run: |
+          echo "[Error] 由于上游仓库有复杂的变更，导致自动合并失败。"
+          echo "[Error] 请尝试手动执行 'git fetch upstream' 和 'git merge'。"
+          exit 1
