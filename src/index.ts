@@ -1,6 +1,7 @@
 import path from 'node:path';
 import url from 'node:url';
 import fs from 'node:fs';
+import { ElectronBlocker } from '@ghostery/adblocker-electron';
 
 import {
   BrowserWindow,
@@ -371,7 +372,51 @@ async function createMainWindow() {
 
   const win = new BrowserWindow(electronWindowSettings);
 
+  // 👇👇👇【修正版】强力去广告逻辑 (使用 await 死等) 👇👇👇
+  try {
+    // 强制等待拦截器下载并初始化完成，这一步可能会卡住启动界面几秒钟，是正常的
+    const blocker = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch);
+    blocker.enableBlockingInSession(win.webContents.session);
+    console.log('✅ AdBlocker 已就绪 (同步模式)');
+  } catch (err) {
+    console.error('❌ AdBlocker 启动失败:', err);
+  }
+  // 👆👆👆 修正结束 👆👆👆
+  // 👆👆👆 插入结束 👆👆👆
+
   await initHook(win);
+  
+  // 👇👇👇【核武器】注入暴力去广告脚本 👇👇👇
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.executeJavaScript(`
+      console.log("🚀 暴力去广告脚本已注入");
+      setInterval(() => {
+        // 1. 检测是否有广告状态
+        const ad = document.querySelector('.ad-showing');
+        const video = document.querySelector('video');
+        
+        if (ad && video && !isNaN(video.duration)) {
+            // 如果正在放广告，直接静音并把进度条拖到最后
+            video.muted = true;
+            video.currentTime = video.duration;
+            console.log("🔥 监测到广告，已强制快进");
+        }
+
+        // 2. 检测是否有“跳过广告”按钮并点击
+        const skipBtn = document.querySelector('.ytp-ad-skip-button, .ytp-ad-skip-button-modern');
+        if (skipBtn) {
+            skipBtn.click();
+            console.log("🔥 监测到跳过按钮，已点击");
+        }
+        
+        // 3. 移除界面上的广告横幅 (可选)
+        const banners = document.querySelectorAll('.ytd-banner-promo-renderer-background, .ytd-action-companion-ad-renderer');
+        banners.forEach(b => b.remove());
+      }, 500); // 每 500 毫秒检查一次
+    `).catch(err => console.log('脚本注入失败', err));
+  });
+  // 👆👆👆 插入结束 👆👆👆
+
   initTheme(win);
 
   await loadAllMainPlugins(win);
