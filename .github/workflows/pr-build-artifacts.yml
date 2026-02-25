@@ -57,12 +57,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build on macOS
-        if: startsWith(matrix.os, 'macOS')
-        run: |
-          pnpm dist:mac
-          pnpm dist:mac:arm64
-
       - name: Install Linux dependencies
         if: startsWith(matrix.os, 'ubuntu')
         run: |
@@ -78,13 +72,6 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           pnpm dist:linux
-          pnpm dist:linux:deb-arm64
-          pnpm dist:linux:rpm-arm64
-
-      - name: Build on Windows
-        if: startsWith(matrix.os, 'windows')
-        run: |
-          pnpm dist:win
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
