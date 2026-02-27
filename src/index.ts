@@ -1,6 +1,7 @@
 import path from 'node:path';
 import url from 'node:url';
 import fs from 'node:fs';
+import { fileURLToPath } from "url";
 import { ElectronBlocker } from '@ghostery/adblocker-electron';
 
 import {
@@ -370,21 +371,49 @@ async function createMainWindow() {
     ...decorations,
   };
 
-  const win = new BrowserWindow(electronWindowSettings);
 
-  // 👇👇👇【修正版】强力去广告逻辑 (使用 await 死等) 👇👇👇
-  try {
-    // 强制等待拦截器下载并初始化完成，这一步可能会卡住启动界面几秒钟，是正常的
-    const blocker = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch);
-    blocker.enableBlockingInSession(win.webContents.session);
-    console.log('✅ AdBlocker 已就绪 (同步模式)');
-  } catch (err) {
-    console.error('❌ AdBlocker 启动失败:', err);
-  }
-  // 👆👆👆 修正结束 👆👆👆
-  // 👆👆👆 插入结束 👆👆👆
+	// ... 其他已有的 imports ...
 
-  await initHook(win);
+	// 然后才是您的业务代码
+	const win = new BrowserWindow(electronWindowSettings);
+
+	// 👇👇👇【本地规则版本】从本地读取广告过滤文件 👇👇👇
+	try {
+	  // 获取当前文件目录（因为使用了 ES Module）
+	  const __filename = fileURLToPath(import.meta.url);
+	  const __dirname = path.dirname(__filename);
+	  
+	  // 假设广告规则文件放在 src/adblock-rules 文件夹下
+	  const rulesDir = path.join(__dirname, 'adblock-rules');
+	  
+	  if (fs.existsSync(rulesDir)) {
+		const rulesFiles = fs.readdirSync(rulesDir).filter(file => file.endsWith('.txt'));
+		
+		if (rulesFiles.length > 0) {
+		  // 合并所有规则文件
+		  let allRules = '';
+		  for (const file of rulesFiles) {
+			const filePath = path.join(rulesDir, file);
+			allRules += fs.readFileSync(filePath, 'utf-8') + '\n';
+			console.log(`✅ 加载规则文件: ${file}`);
+		  }
+		  
+		  // 从本地规则字符串创建 blocker
+		  const blocker = ElectronBlocker.parse(allRules);
+		  blocker.enableBlockingInSession(win.webContents.session);
+		  console.log('✅ AdBlocker 已从本地规则文件启动');
+		} else {
+		  console.warn('⚠️ 未找到本地规则文件，跳过广告拦截');
+		}
+	  } else {
+		console.warn('⚠️ 规则目录不存在，跳过广告拦截');
+	  }
+	} catch (err) {
+	  console.error('❌ 本地 AdBlocker 启动失败:', err);
+	}
+	// 👆👆👆 本地规则版本结束 👆👆👆
+
+	await initHook(win);
   
   // 👇👇👇【核武器】注入暴力去广告脚本 👇👇👇
   win.webContents.on('did-finish-load', () => {
