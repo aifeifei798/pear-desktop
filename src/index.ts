@@ -1,9 +1,8 @@
-import path from 'node:path';
-import url from 'node:url';
-import fs from 'node:fs';
-import { fileURLToPath } from "url";
+import { fileURLToPath } from 'url';
 import { ElectronBlocker } from '@ghostery/adblocker-electron';
-
+import url from 'node:url';
+import path from 'node:path';
+import fs from 'node:fs';
 import {
   BrowserWindow,
   app,
@@ -358,6 +357,7 @@ async function createMainWindow() {
     backgroundColor: '#000',
     show: false,
     webPreferences: {
+      webSecurity: false,
       contextIsolation: true,
       preload: path.join(__dirname, '..', 'preload', 'preload.cjs'),
       ...(isTesting()
@@ -371,78 +371,83 @@ async function createMainWindow() {
     ...decorations,
   };
 
+  const win = new BrowserWindow(electronWindowSettings); // 然后才是您的业务代码
 
-	// ... 其他已有的 imports ...
+  // 1. 确定规则目录的正确位置
+  const rulesDir = app.isPackaged
+    ? path.join(process.resourcesPath, 'adblock-rules') // 打包后：在 resources 文件夹下
+    : path.join(app.getAppPath(), 'src', 'adblock-rules'); // 开发时：在 src 文件夹下
 
-	// 然后才是您的业务代码
-	const win = new BrowserWindow(electronWindowSettings);
+  console.log(`🔍 正在扫描规则目录: ${rulesDir}`);
 
-	// 👇👇👇【本地规则版本】从本地读取广告过滤文件 👇👇👇
-	try {
-	  // 获取当前文件目录（因为使用了 ES Module）
-	  const __filename = fileURLToPath(import.meta.url);
-	  const __dirname = path.dirname(__filename);
-	  
-	  // 假设广告规则文件放在 src/adblock-rules 文件夹下
-	  const rulesDir = path.join(__dirname, 'adblock-rules');
-	  
-	  if (fs.existsSync(rulesDir)) {
-		const rulesFiles = fs.readdirSync(rulesDir).filter(file => file.endsWith('.txt'));
-		
-		if (rulesFiles.length > 0) {
-		  // 合并所有规则文件
-		  let allRules = '';
-		  for (const file of rulesFiles) {
-			const filePath = path.join(rulesDir, file);
-			allRules += fs.readFileSync(filePath, 'utf-8') + '\n';
-			console.log(`✅ 加载规则文件: ${file}`);
-		  }
-		  
-		  // 从本地规则字符串创建 blocker
-		  const blocker = ElectronBlocker.parse(allRules);
-		  blocker.enableBlockingInSession(win.webContents.session);
-		  console.log('✅ AdBlocker 已从本地规则文件启动');
-		} else {
-		  console.warn('⚠️ 未找到本地规则文件，跳过广告拦截');
-		}
-	  } else {
-		console.warn('⚠️ 规则目录不存在，跳过广告拦截');
-	  }
-	} catch (err) {
-	  console.error('❌ 本地 AdBlocker 启动失败:', err);
-	}
-	// 👆👆👆 本地规则版本结束 👆👆👆
+  try {
+    if (fs.existsSync(rulesDir)) {
+      const rulesFiles = fs
+        .readdirSync(rulesDir)
+        .filter((file) => file.endsWith('.txt'));
 
-	await initHook(win);
-  
+      if (rulesFiles.length > 0) {
+        let allRules = '';
+        for (const file of rulesFiles) {
+          const filePath = path.join(rulesDir, file);
+          allRules += fs.readFileSync(filePath, 'utf-8') + '\n';
+          console.log(`✅ 加载规则文件: ${file}`);
+        }
+
+        const blocker = await ElectronBlocker.parse(allRules); // 注意：parse 有时可能是异步的
+        blocker.enableBlockingInSession(win.webContents.session);
+        console.log('✅ AdBlocker 已启动');
+      } else {
+        console.warn('⚠️ 目录内没有 .txt 规则文件');
+      }
+    } else {
+      console.warn('⚠️ 规则目录不存在: ' + rulesDir);
+    }
+  } catch (err) {
+    console.error('❌ 启动失败:', err);
+  }
+  // 👆👆👆 本地规则版本结束 👆👆👆
+
+  await initHook(win);
+
   // 👇👇👇【核武器】注入暴力去广告脚本 👇👇👇
-  win.webContents.on('did-finish-load', () => {
+  win.webContents.on('dom-ready', () => {
     win.webContents.executeJavaScript(`
-      console.log("🚀 暴力去广告脚本已注入");
-      setInterval(() => {
-        // 1. 检测是否有广告状态
-        const ad = document.querySelector('.ad-showing');
-        const video = document.querySelector('video');
-        
-        if (ad && video && !isNaN(video.duration)) {
-            // 如果正在放广告，直接静音并把进度条拖到最后
-            video.muted = true;
-            video.currentTime = video.duration;
-            console.log("🔥 监测到广告，已强制快进");
-        }
+    const clearAds = () => {
+      const video = document.querySelector('video');
+      const ad = document.querySelector('.ad-showing');
 
-        // 2. 检测是否有“跳过广告”按钮并点击
-        const skipBtn = document.querySelector('.ytp-ad-skip-button, .ytp-ad-skip-button-modern');
-        if (skipBtn) {
-            skipBtn.click();
-            console.log("🔥 监测到跳过按钮，已点击");
-        }
-        
-        // 3. 移除界面上的广告横幅 (可选)
-        const banners = document.querySelectorAll('.ytd-banner-promo-renderer-background, .ytd-action-companion-ad-renderer');
-        banners.forEach(b => b.remove());
-      }, 500); // 每 500 毫秒检查一次
-    `).catch(err => console.log('脚本注入失败', err));
+      // 1. 强制跳过视频广告
+      if (ad && video) {
+        video.muted = true;
+        video.currentTime = video.duration || 999;
+        // 尝试点击各种可能的跳过按钮
+        const skipButtons = ['.ytp-ad-skip-button', '.ytp-ad-skip-button-modern', '.ytp-ad-skip-button-slot'];
+        skipButtons.forEach(sel => {
+          const btn = document.querySelector(sel);
+          if(btn) btn.click();
+        });
+      }
+
+      // 2. 移除横幅广告
+      const adSelectors = [
+        'ytmusic-player-bar-ads',
+        '#player-ads',
+        'ytmusic-ad-slot-renderer',
+        '.ytd-banner-promo-renderer-background'
+      ];
+      adSelectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => el.remove());
+      });
+    };
+
+    // 使用 MutationObserver 代替 setInterval，性能更好
+    const observer = new MutationObserver(clearAds);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // 初始化执行一次
+    clearAds();
+    `);
   });
   // 👆👆👆 插入结束 👆👆👆
 
