@@ -15,7 +15,7 @@
     "url": "https://github.com/pear-devs/pear-desktop"
   },
   "scripts": {
-    "postinstall": "pnpm install-electron",
+    "postinstall": "electron-builder install-app-deps",
     "test": "pnpm playwright test",
     "test:debug": "pnpm cross-env DEBUG=pw:*,-pw:test:protocol playwright test",
     "build": "pnpm electron-vite build",
