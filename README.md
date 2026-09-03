@@ -1,28 +1,14 @@
-<div align="center" markdown="1">
-   <sup>Special thanks to:</sup>
-   <br>
-   <br>
-   <a href="https://go.warp.dev/pear-desktop">
-      <img alt="Warp sponsorship" width="400" src="https://github.com/user-attachments/assets/8307ea56-e872-494a-8a9c-de0e296a06ed" />
-   </a>
-
-### [Warp, built for coding with multiple AI agents](https://go.warp.dev/pear-desktop)
-[Available for macOS, Linux, & Windows](https://go.warp.dev/pear-desktop)<br>
-
-</div>
-<hr>
-
 <div align="center">
 
 # :pear: Pear Desktop
 
-[![GitHub release](https://img.shields.io/github/release/pear-devs/pear-desktop.svg?style=for-the-badge)](https://github.com/pear-devs/pear-desktop/releases/)
-[![GitHub license](https://img.shields.io/github/license/pear-devs/pear-desktop.svg?style=for-the-badge)](https://github.com/pear-devs/pear-desktop/blob/master/license)
-[![eslint code style](https://img.shields.io/badge/code_style-eslint-5ed9c7.svg?style=for-the-badge)](https://github.com/pear-devs/pear-desktop/blob/master/eslint.config.mjs)
-[![Build status](https://img.shields.io/github/actions/workflow/status/pear-devs/pear-desktop/build.yml?branch=master&style=for-the-badge)](https://GitHub.com/pear-devs/pear-desktop/releases/)
-[![GitHub All Releases](https://img.shields.io/github/downloads/pear-devs/pear-desktop/total?style=for-the-badge)](https://GitHub.com/pear-devs/pear-desktop/releases/)
+[![GitHub release](https://img.shields.io/github/release/aifeifei798/pear-desktop.svg?style=for-the-badge)](https://github.com/aifeifei798/pear-desktop/releases/)
+[![GitHub license](https://img.shields.io/github/license/aifeifei798/pear-desktop.svg?style=for-the-badge)](https://github.com/aifeifei798/pear-desktop/blob/master/license)
+[![oxlint code style](https://img.shields.io/badge/code_style-oxlint-5ed9c7.svg?style=for-the-badge)](https://github.com/aifeifei798/pear-desktop/blob/master/.oxlintrc.json)
+[![Build status](https://img.shields.io/github/actions/workflow/status/aifeifei798/pear-desktop/build.yml?branch=master&style=for-the-badge)](https://github.com/aifeifei798/pear-desktop/releases/)
+[![GitHub All Releases](https://img.shields.io/github/downloads/aifeifei798/pear-desktop/total?style=for-the-badge)](https://github.com/aifeifei798/pear-desktop/releases/)
 <!--[![AUR](https://img.shields.io/aur/version/pear-desktop-bin?color=blueviolet&style=for-the-badge)](https://aur.archlinux.org/packages/pear-desktop-bin)-->
-[![Known Vulnerabilities](https://snyk.io/test/github/pear-devs/pear-desktop/badge.svg)](https://snyk.io/test/github/pear-devs/pear-desktop)
+[![Known Vulnerabilities](https://snyk.io/test/github/aifeifei798/pear-desktop/badge.svg)](https://snyk.io/test/github/aifeifei798/pear-desktop)
 
 </div>
 
@@ -66,6 +52,16 @@
 - [License](#license)
 - [FAQ](#faq)
 
+## Features
+
+Electron + Solid wrapper around YouTube Music with 40+ built-in plugins:
+
+- **Ad Speedup** — mutes and fast-forwards video ads, auto-clicks skip buttons, and blocks Premium promo popups/banners
+- **Equalizer** — 10-band graphic EQ with presets and an in-player control panel
+- **SponsorBlock** — auto-skips sponsored segments, intros and outros
+- **Do Not Track** — tracker blocking via blocklists or in-player response pruning
+- **Downloader, Synced Lyrics, Discord presence, Scrobbler, themes and more** — everything is toggleable from the Plugins menu
+
 ## Translation
 
 You can help with translation on [Hosted Weblate](https://bit.ly/48n5YF7).
@@ -77,8 +73,12 @@ You can help with translation on [Hosted Weblate](https://bit.ly/48n5YF7).
 
 ## Download
 
-You can check out the [latest release](https://github.com/pear-devs/pear-desktop/releases/latest) to quickly find the
+You can check out the [latest release](https://github.com/aifeifei798/pear-desktop/releases/latest) to quickly find the
 latest version.
+
+> [!NOTE]
+> The package-manager channels below (AUR, Homebrew, Scoop, Winget, Solus) track upstream builds. For builds of this
+> fork, use the [GitHub releases page](https://github.com/aifeifei798/pear-desktop/releases/latest).
 
 ### Arch Linux
 
@@ -128,7 +128,7 @@ winget install pear-devs.pear-desktop
 
 #### How to install without a network connection? (in Windows)
 
-- Download the `*.nsis.7z` file for _your device architecture_ in [release page](https://github.com/pear-devs/pear-desktop/releases/latest).
+- Download the `*.nsis.7z` file for _your device architecture_ in [release page](https://github.com/aifeifei798/pear-desktop/releases/latest).
   - `x64` for 64-bit Windows
   - `ia32` for 32-bit Windows
   - `arm64` for ARM64 Windows
@@ -145,7 +145,7 @@ Some predefined themes are available in https://github.com/kerichdev/themes-for-
 ## Dev
 
 ```bash
-git clone https://github.com/pear-devs/pear-desktop
+git clone https://github.com/aifeifei798/pear-desktop
 cd pear-desktop
 pnpm install --frozen-lockfile
 pnpm dev
@@ -316,7 +316,7 @@ Uses [Playwright](https://playwright.dev/) to test the app.
 
 ## License
 
-MIT © [pear-devs](https://github.com/pear-devs/pear-desktop)
+MIT © [aifeifei798](https://github.com/aifeifei798/pear-desktop)
 
 ## FAQ
 
@@ -324,3 +324,11 @@ MIT © [pear-devs](https://github.com/pear-devs/pear-desktop)
 
 If `Hide Menu` option is on - you can show the menu with the <kbd>alt</kbd> key (or <kbd>\`</kbd> [backtick] if using
 the in-app-menu plugin)
+
+### Electron download hangs during install?
+
+`@electron/get` only uses your proxy when explicitly enabled:
+
+```bash
+ELECTRON_GET_USE_PROXY=true pnpm install
+```
