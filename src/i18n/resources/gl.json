@@ -311,7 +311,8 @@
         "auto-skip": "Auto-click skip button",
         "speed": {
           "label": "Playback speed during ads"
-        }
+        },
+        "block-premium-promo": "Block Premium promo popups"
       }
     },
     "equalizer": {

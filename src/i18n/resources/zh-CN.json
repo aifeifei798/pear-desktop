@@ -223,7 +223,8 @@
         "auto-skip": "自动点击跳过按钮",
         "speed": {
           "label": "广告期间播放速度"
-        }
+        },
+        "block-premium-promo": "屏蔽 Premium 推销弹窗"
       }
     },
     "album-actions": {
