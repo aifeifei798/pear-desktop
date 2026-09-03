@@ -8,11 +8,13 @@ let hasAudioStarted = false;
 
 const smoothing = 0.1;
 const threshold = -100; // DB (-100 = absolute silence, 0 = loudest)
-const interval = 2; // Ms
+const interval = 50; // Ms
 const history = 10;
 const speakingHistory = Array.from({ length: history }).fill(0) as number[];
 
 let playOrSeekHandler: (() => void) | undefined;
+let timer: NodeJS.Timeout | null = null;
+let analyser: AnalyserNode | null = null;
 
 const getMaxVolume = (
   analyser: AnalyserNode,
@@ -30,14 +32,40 @@ const getMaxVolume = (
   return maxVolume;
 };
 
+const stopLoop = () => {
+  if (timer !== null) {
+    clearTimeout(timer);
+    timer = null;
+  }
+};
+
+const cleanupAudio = () => {
+  stopLoop();
+
+  if (playOrSeekHandler) {
+    const video = document.querySelector('video');
+    video?.removeEventListener('play', playOrSeekHandler);
+    video?.removeEventListener('seeked', playOrSeekHandler);
+    playOrSeekHandler = undefined;
+  }
+
+  if (analyser) {
+    analyser.disconnect();
+    analyser = null;
+  }
+};
+
 const audioCanPlayListener = (e: CustomEvent<Compressor>) => {
+  // A new listener fires per song; drop the previous loop first
+  cleanupAudio();
+
   const video = document.querySelector('video');
   const { audioContext } = e.detail;
   const sourceNode = e.detail.audioSource;
 
   // Use an audio analyser similar to Hark
   // https://github.com/otalk/hark/blob/master/hark.bundle.js
-  const analyser = audioContext.createAnalyser();
+  analyser = audioContext.createAnalyser();
   analyser.fftSize = 512;
   analyser.smoothingTimeConstant = smoothing;
   const fftBins = new Float32Array(analyser.frequencyBinCount);
@@ -45,48 +73,47 @@ const audioCanPlayListener = (e: CustomEvent<Compressor>) => {
   sourceNode.connect(analyser);
 
   const looper = () => {
-    setTimeout(() => {
-      const currentVolume = getMaxVolume(analyser, fftBins);
+    timer = setTimeout(() => {
+      if (
+        video &&
+        !video.paused &&
+        !video.seeking &&
+        !video.ended &&
+        analyser
+      ) {
+        const currentVolume = getMaxVolume(analyser, fftBins);
 
-      let history = 0;
-      if (currentVolume > threshold && isSilent) {
-        // Trigger quickly, short history
-        for (
-          let i = speakingHistory.length - 3;
-          i < speakingHistory.length;
-          i++
-        ) {
-          history += speakingHistory[i];
+        let history = 0;
+        if (currentVolume > threshold && isSilent) {
+          // Trigger quickly, short history
+          for (
+            let i = speakingHistory.length - 3;
+            i < speakingHistory.length;
+            i++
+          ) {
+            history += speakingHistory[i];
+          }
+
+          if (history >= 2) {
+            // Not silent
+            isSilent = false;
+            hasAudioStarted = true;
+          }
+        } else if (currentVolume < threshold && !isSilent) {
+          for (const element of speakingHistory) {
+            history += element;
+          }
+
+          if (history == 0 && !(video.muted || video.volume === 0)) {
+            // Silent
+            isSilent = true;
+            skipSilence();
+          }
         }
 
-        if (history >= 2) {
-          // Not silent
-          isSilent = false;
-          hasAudioStarted = true;
-        }
-      } else if (currentVolume < threshold && !isSilent) {
-        for (const element of speakingHistory) {
-          history += element;
-        }
-
-        if (
-          history == 0 && // Silent
-          !(
-            video &&
-            (video.paused ||
-              video.seeking ||
-              video.ended ||
-              video.muted ||
-              video.volume === 0)
-          )
-        ) {
-          isSilent = true;
-          skipSilence();
-        }
+        speakingHistory.shift();
+        speakingHistory.push(Number(currentVolume > threshold));
       }
-
-      speakingHistory.shift();
-      speakingHistory.push(Number(currentVolume > threshold));
 
       looper();
     }, interval);
@@ -125,10 +152,5 @@ export const onRendererLoad = async ({
 
 export const onRendererUnload = () => {
   document.removeEventListener('peard:audio-can-play', audioCanPlayListener);
-
-  if (playOrSeekHandler) {
-    const video = document.querySelector('video');
-    video?.removeEventListener('play', playOrSeekHandler);
-    video?.removeEventListener('seeked', playOrSeekHandler);
-  }
+  cleanupAudio();
 };

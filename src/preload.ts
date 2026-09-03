@@ -84,26 +84,24 @@ contextBridge.exposeInMainWorld(
   process.env.ELECTRON_RENDERER_URL,
 );
 
-const [path, script] = ipcRenderer.sendSync('get-renderer-script') as [
-  string | null,
-  string,
-];
-let blocked = true;
-if (path) {
-  webFrame.executeJavaScriptInIsolatedWorld(
-    0,
-    [
-      {
-        code: script,
-        url: path,
-      },
-    ],
-    true,
-    () => (blocked = false),
-  );
-} else {
-  webFrame.executeJavaScript(script, true, () => (blocked = false));
-}
+ipcRenderer
+  .invoke('get-renderer-script')
+  .then(([path, script]) => {
+    if (path) {
+      return webFrame.executeJavaScriptInIsolatedWorld(
+        0,
+        [
+          {
+            code: script as string,
+            url: path as string,
+          },
+        ],
+        true,
+      );
+    }
 
-// HACK: Wait for the script to be executed
-while (blocked);
+    return webFrame.executeJavaScript(script as string, true);
+  })
+  .catch((error: unknown) => {
+    console.error('Failed to inject renderer script', error);
+  });

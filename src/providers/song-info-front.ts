@@ -35,12 +35,17 @@ export const setupSeekedListener = singleton(() => {
 });
 
 export const setupTimeChangedListener = singleton(() => {
+  let lastSent = Number.NEGATIVE_INFINITY;
   const progressObserver = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       const target = mutation.target as Node & { value: string };
       const numberValue = Number(target.value);
-      window.ipcRenderer.send('peard:time-changed', numberValue);
-      songInfo.elapsedSeconds = numberValue;
+      // The progress bar fires very often; downstream only needs ~1s precision
+      if (Math.abs(numberValue - lastSent) >= 1) {
+        lastSent = numberValue;
+        window.ipcRenderer.send('peard:time-changed', numberValue);
+        songInfo.elapsedSeconds = numberValue;
+      }
     }
   });
   const progressBar = document.querySelector('#progress-bar');

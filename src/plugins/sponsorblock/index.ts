@@ -89,15 +89,19 @@ export default createPlugin({
       if (e.target instanceof HTMLVideoElement) {
         const target = e.target;
 
+        // currentSegments is sorted and merged, so the first match wins
         for (const segment of currentSegments) {
-          if (
-            target.currentTime >= segment[0] &&
-            target.currentTime < segment[1]
-          ) {
+          if (target.currentTime < segment[0]) {
+            break;
+          }
+
+          if (target.currentTime < segment[1]) {
             target.currentTime = segment[1];
             if (window.electronIs.dev()) {
               console.log('SponsorBlock: skipping segment', segment);
             }
+
+            break;
           }
         }
       }
