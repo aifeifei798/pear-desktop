@@ -314,15 +314,17 @@ async function onApiLoaded() {
   const audioSource = audioContext.createMediaElementSource(video);
   audioSource.connect(audioContext.destination);
 
-  for (const [id, plugin] of Object.entries(getAllLoadedRendererPlugins())) {
-    if (typeof plugin.renderer !== 'function') {
-      await plugin.renderer?.onPlayerApiReady?.call(
-        plugin.renderer,
-        api!,
-        createContext(id),
-      );
-    }
-  }
+  await Promise.allSettled(
+    Object.entries(getAllLoadedRendererPlugins()).map(async ([id, plugin]) => {
+      if (typeof plugin.renderer !== 'function') {
+        await plugin.renderer?.onPlayerApiReady?.call(
+          plugin.renderer,
+          api!,
+          createContext(id),
+        );
+      }
+    }),
+  );
 
   if (firstDataLoaded) {
     document.dispatchEvent(

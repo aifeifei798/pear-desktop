@@ -26,7 +26,7 @@ import unhandled from 'electron-unhandled';
 import electronUpdater from 'electron-updater';
 import { deepEqual } from 'fast-equals';
 import { parse } from 'node-html-parser';
-import { languageResources } from 'virtual:i18n';
+import { availableLanguages } from 'virtual:i18n';
 import { allPlugins, mainPlugins } from 'virtual:plugins';
 
 import * as config from '@/config';
@@ -385,8 +385,6 @@ async function createMainWindow() {
   await initHook(win);
   initTheme(win);
 
-  await loadAllMainPlugins(win);
-
   if (windowPosition) {
     const { x: windowX, y: windowY } = windowPosition;
     const winSize = win.getSize();
@@ -401,12 +399,16 @@ async function createMainWindow() {
 
     const scaledX = windowX;
     const scaledY = windowY;
+    const halfWidth = scaledWidth / 2;
+    const halfHeight = scaledHeight / 2;
+    const centerX = scaledX + halfWidth;
+    const centerY = scaledY + halfHeight;
 
     if (
-      scaledX + scaledWidth / 2 < display.bounds.x - 8 || // Left
-      scaledX + scaledWidth / 2 > display.bounds.x + display.bounds.width || // Right
+      centerX < display.bounds.x - 8 || // Left
+      centerX > display.bounds.x + display.bounds.width || // Right
       scaledY < display.bounds.y - 8 || // Top
-      scaledY + scaledHeight / 2 > display.bounds.y + display.bounds.height // Bottom
+      centerY > display.bounds.y + display.bounds.height // Bottom
     ) {
       // Window is offscreen
       if (is.dev()) {
@@ -527,6 +529,15 @@ async function createMainWindow() {
 
   win.webContents.loadURL(urlToLoad);
 
+  // Load backend plugins in the background so a slow plugin
+  // (e.g. do-not-track compiling blocklists from the network)
+  // doesn't delay the window.
+  // Note: session-level blocking only applies once it finishes loading;
+  // the default in-player mode is unaffected (it injects via preload).
+  loadAllMainPlugins(win).catch((error: unknown) => {
+    console.error(LoggerPrefix, 'Failed to load backend plugins', error);
+  });
+
   return win;
 }
 
@@ -640,12 +651,12 @@ app.on('activate', async () => {
   }
 });
 
-const getDefaultLocale = async (locale: string) =>
-  Object.keys(await languageResources()).includes(locale) ? locale : null;
+const getDefaultLocale = (locale: string) =>
+  Object.hasOwn(availableLanguages, locale) ? locale : null;
 
 app.whenReady().then(async () => {
   if (!config.get('options.language')) {
-    const locale = await getDefaultLocale(app.getLocale());
+    const locale = getDefaultLocale(app.getLocale());
     if (locale) {
       config.set('options.language', locale);
     }
@@ -717,12 +728,19 @@ app.whenReady().then(async () => {
     }
   }
 
-  ipcMain.on('get-renderer-script', (event) => {
+  // The renderer bundle is static per session; read it once instead of
+  // blocking the main process with a sync read on every page load
+  let rendererScriptCache: [string | null, string] | null = null;
+  ipcMain.handle('get-renderer-script', () => {
+    if (rendererScriptCache) {
+      return rendererScriptCache;
+    }
+
     // Inject index.html file as string using insertAdjacentHTML
     // In dev mode, get string from process.env.VITE_DEV_SERVER_URL, else use fs.readFileSync
     if (is.dev() && process.env.ELECTRON_RENDERER_URL) {
       // HACK: to make vite work with electron renderer (supports hot reload)
-      event.returnValue = [
+      rendererScriptCache = [
         null,
         `
         console.log('${LoggerPrefix}', 'Loading vite from dev server');
@@ -758,11 +776,13 @@ app.whenReady().then(async () => {
         scriptSrc.getAttribute('src')!,
       );
       const scriptString = fs.readFileSync(scriptPath, 'utf-8');
-      event.returnValue = [
+      rendererScriptCache = [
         url.pathToFileURL(scriptPath).toString(),
         scriptString + ';0',
       ];
     }
+
+    return rendererScriptCache;
   });
 
   mainWindow = await createMainWindow();
