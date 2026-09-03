@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { basename, resolve, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -24,16 +25,51 @@ export const i18nImporter = () => {
   const src = globalProject.createSourceFile(
     'vm:i18n',
     (writer) => {
-      writer.writeLine('export const languageResources = async () => {');
-      writer.writeLine('  const entries = await Promise.all([');
+      // Display names are extracted at build time so the language menu
+      // doesn't need to load every translation file
+      const displayNames: Record<string, unknown> = {};
+      for (const { name, path } of plugins) {
+        try {
+          const content = JSON.parse(
+            readFileSync(resolve(srcPath, '..', path), 'utf-8'),
+          ) as {
+            translation?: {
+              language?: Record<string, string>;
+            };
+          };
+          displayNames[name] = content.translation?.language ?? {};
+        } catch {
+          displayNames[name] = {};
+        }
+      }
+      writer.writeLine(
+        `export const availableLanguages = ${JSON.stringify(displayNames)};`,
+      );
+      writer.writeLine(
+        'export const languageResource = async (lang) => {',
+      );
+      writer.writeLine('  const importer = resourceImporters[lang];');
+      writer.writeLine("  if (!importer) throw new Error(`Unknown language: ${lang}`);");
+      writer.writeLine('  const mod = await importer();');
+      writer.writeLine('  return { [lang]: { translation: mod.default } };');
+      writer.writeLine('};');
+      writer.blankLine();
+      writer.writeLine('const resourceImporters = {');
       for (const { name, path } of plugins) {
         const absolutePath = resolve(srcPath, '..', path).replace(
           /\\/g,
           '/',
         );
 
+        writer.writeLine(`  "${name}": () => import('${absolutePath}'),`);
+      }
+      writer.writeLine('};');
+      writer.blankLine();
+      writer.writeLine('export const languageResources = async () => {');
+      writer.writeLine('  const entries = await Promise.all([');
+      for (const { name } of plugins) {
         writer.writeLine(
-          `    import('${absolutePath}').then((mod) => ({ "${name}": { translation: mod.default } })),`,
+          `    resourceImporters["${name}"]().then((mod) => ({ "${name}": { translation: mod.default } })),`,
         );
       }
       writer.writeLine('  ]);');

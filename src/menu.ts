@@ -10,7 +10,7 @@ import {
 } from 'electron';
 import is from 'electron-is';
 import { satisfies } from 'semver';
-import { languageResources } from 'virtual:i18n';
+import { availableLanguages } from 'virtual:i18n';
 import { allPlugins } from 'virtual:plugins';
 
 import { APPLICATION_NAME, setLanguage, t } from '@/i18n';
@@ -147,8 +147,7 @@ export const mainMenuTemplate = async (
       }),
   );
 
-  const langResources = await languageResources();
-  const availableLanguages = Object.keys(langResources);
+  const availableLanguageCodes = Object.keys(availableLanguages);
 
   return [
     {
@@ -491,10 +490,10 @@ export const mainMenuTemplate = async (
               },
             } as Electron.MenuItemConstructorOptions,
           ].concat(
-            availableLanguages
+            availableLanguageCodes
               .map(
                 (lang): Electron.MenuItemConstructorOptions => ({
-                  label: `${langResources[lang].translation.language?.name ?? 'Unknown'} (${langResources[lang].translation.language?.['local-name'] ?? 'Unknown'})`,
+                  label: `${availableLanguages[lang]?.name ?? 'Unknown'} (${availableLanguages[lang]?.['local-name'] ?? 'Unknown'})`,
                   type: 'checkbox',
                   checked: (config.get('options.language') ?? 'en') === lang,
                   click() {
