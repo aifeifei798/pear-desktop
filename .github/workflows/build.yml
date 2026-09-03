@@ -3,6 +3,7 @@ name: Build Pear Desktop
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
 
 permissions: {}
 
@@ -80,6 +81,45 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pnpm release:win
+
+      # Build all packages on forks (push + manual dispatch) without publishing
+      - name: Build packages on Mac (fork)
+        if: startsWith(matrix.os, 'macOS') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
+        run: |
+          pnpm dist:mac
+
+      - name: Build packages on Linux (fork)
+        if: startsWith(matrix.os, 'ubuntu') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
+        run: |
+          sudo snap install snapcraft --classic
+          sudo apt update
+          sudo apt install -y flatpak flatpak-builder
+          sudo flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak install -y flathub org.freedesktop.Platform/x86_64/24.08
+          sudo flatpak install -y flathub org.freedesktop.Sdk/x86_64/24.08
+          sudo flatpak install -y flathub org.electronjs.Electron2.BaseApp/x86_64/24.08
+          pnpm dist:linux
+
+      - name: Build packages on Windows (fork)
+        if: startsWith(matrix.os, 'windows') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
+        run: |
+          pnpm dist:win
+
+      - name: Upload packages (fork)
+        if: github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-${{ matrix.os }}
+          if-no-files-found: warn
+          path: |
+            pack/*.AppImage
+            pack/*.dmg
+            pack/*.exe
+            pack/*.deb
+            pack/*.rpm
+            pack/*.snap
+            pack/*.flatpak
+            pack/*.tar.gz
 
       - name: Test
         uses: coactions/setup-xvfb@b6b4fcfb9f5a895edadc3bc76318fae0ac17c8b3
