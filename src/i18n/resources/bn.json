@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "বিজ্ঞাপন চললে, এটি অডিও বন্ধ করে দেয় এবং প্লেব্যাক গতি ১৬ গুণ করে দেয়",
-      "name": "বিজ্ঞাপন দ্রুত করুন"
+      "name": "বিজ্ঞাপন দ্রুত করুন",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "প্লেলিস্ট বা অ্যালবামের সব গানেই প্রয়োগ করতে আনডিসলাইক, ডিসলাইক, লাইক ও আনলাইক বাটন যোগ করে",
@@ -561,11 +568,31 @@
         "presets": {
           "label": "প্রিসেট",
           "list": {
-            "bass-booster": "বেস বুস্টার"
+            "bass-booster": "বেস বুস্টার",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "ইকুয়ালাইজার"
+      "name": "ইকুয়ালাইজার",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "ভলিউম স্লাইডারকে এক্সপোটেনশিয়াল করে তোলে যাতে কম ভলিউম নির্বাচন করা সহজ হয়।",

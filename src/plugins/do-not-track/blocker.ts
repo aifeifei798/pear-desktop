@@ -7,9 +7,45 @@ import * as z from 'zod';
 
 let blocker: ElectronBlocker | undefined;
 
+const TB_LIST_URL =
+  'https://raw.githubusercontent.com/organization/tb-list/refs/heads/main/tb.json';
+
 const TbSourcesSchema = z.object({
   tb: z.array(z.string()),
 });
+
+// Bundled fallback: the default lists previously shipped with the adblocker.
+// Used when the remote tb-list cannot be fetched (offline / 404 / invalid).
+const DEFAULT_SOURCES = [
+  'https://raw.githubusercontent.com/kbinani/adblock-youtube-ads/master/signed.txt',
+  // UBlock Origin
+  'https://raw.githubusercontent.com/ghostery/adblocker/master/packages/adblocker/assets/ublock-origin/filters.txt',
+  'https://raw.githubusercontent.com/ghostery/adblocker/master/packages/adblocker/assets/ublock-origin/quick-fixes.txt',
+  'https://raw.githubusercontent.com/ghostery/adblocker/master/packages/adblocker/assets/ublock-origin/unbreak.txt',
+  'https://raw.githubusercontent.com/ghostery/adblocker/master/packages/adblocker/assets/ublock-origin/filters-2020.txt',
+  'https://raw.githubusercontent.com/ghostery/adblocker/master/packages/adblocker/assets/ublock-origin/filters-2021.txt',
+  'https://raw.githubusercontent.com/ghostery/adblocker/master/packages/adblocker/assets/ublock-origin/filters-2022.txt',
+  'https://raw.githubusercontent.com/ghostery/adblocker/master/packages/adblocker/assets/ublock-origin/filters-2023.txt',
+  // Fanboy Annoyances
+  'https://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt',
+  // AdGuard
+  'https://filters.adtidy.org/extension/ublock/filters/122_optimized.txt',
+];
+
+const resolveDefaultLists = async (): Promise<string[]> => {
+  try {
+    const tbSources = TbSourcesSchema.safeParse(
+      await (await net.fetch(TB_LIST_URL)).json(),
+    );
+    if (tbSources.success && tbSources.data.tb.length > 0) {
+      return tbSources.data.tb;
+    }
+  } catch {
+    // Fall through to the bundled defaults below
+  }
+
+  return DEFAULT_SOURCES;
+};
 
 export const loadTrackerBlockerEngine = async (
   session?: Electron.Session,
@@ -30,20 +66,12 @@ export const loadTrackerBlockerEngine = async (
           write: promises.writeFile,
         }
       : undefined;
-  const tbSources = TbSourcesSchema.safeParse(
-    await (
-      await net.fetch(
-        'https://raw.githubusercontent.com/organization/tb-list/refs/heads/main/tb.json',
-      )
-    ).json(),
-  );
+  const defaultLists = await resolveDefaultLists();
   const lists = [
     ...((disableDefaultLists && !Array.isArray(disableDefaultLists)) ||
     (Array.isArray(disableDefaultLists) && disableDefaultLists.length > 0)
       ? []
-      : tbSources.success
-        ? tbSources.data.tb
-        : []),
+      : defaultLists),
     ...additionalBlockLists,
   ];
 

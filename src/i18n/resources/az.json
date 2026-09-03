@@ -190,7 +190,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Reklam çıxarsa səssizə al və oynanış sürətini 16 dəfə artır",
-      "name": "Reklam Oynanış Sürətini Artırmaq"
+      "name": "Reklam Oynanış Sürətini Artırmaq",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Bəyənməməni geri alma, Bəyənməmə, Bəyənmə və Bəyənməni geri alma düymələrini bütün mahnı və albumlara tətbiq etməyi əlavə et",
@@ -217,6 +224,34 @@
         },
         "hostname": {
           "label": "Sahib adı"
+        }
+      }
+    },
+    "equalizer": {
+      "menu": {
+        "presets": {
+          "list": {
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
+          }
+        }
+      },
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
         }
       }
     }

@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "ຖ້າຫາກມີໂຄສະນາຫຼິ້ນ ມັນຈະປິດສຽງ ແລະ ຕັ້ງຄ່າຄວາມໄວໃນການຫຼິ້ນເປັນ 16 ເທົ່າ",
-      "name": "ເລັ່ງໂຄສະນາ"
+      "name": "ເລັ່ງໂຄສະນາ",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "ເພີ່ມປຸ່ມ ຍົກເລີກການບໍ່ຖືກໃຈ, ບໍ່ຖືກໃຈ, ຖືກໃຈ ແລະ ຍົກເລີກການຖືກໃຈ ເພື່ອໃຊ້ກັບທຸກເພງໃນເພລຍ໌ລິດສ໌ ຫຼື ອັລບັ້ມ",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "ຄ່າທີ່ຕັ້ງໄວ້ກ່ອນ",
           "list": {
-            "bass-booster": "ເພີ່ມສຽງເບສ"
+            "bass-booster": "ເພີ່ມສຽງເບສ",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "ອີຄວໍໄລເຊີ"
+      "name": "ອີຄວໍໄລເຊີ",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "ເຮັດໃຫ້ແຖບປັບລະດັບສຽງເປັນແບບເອັກສ໌ໂປເນນຊຽວ ເພື່ອໃຫ້ເລືອກລະດັບສຽງທີ່ເບົາໄດ້ງ່າຍຂຶ້ນ.",

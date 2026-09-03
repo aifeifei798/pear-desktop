@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "במקרה של פרסומת, הסאונד מושתק ומהירות הוידאו מוכפלת ב-16",
-      "name": "הגבר מהירות פרסומת"
+      "name": "הגבר מהירות פרסומת",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "מוסיף לחצני ביטול אהבתי, דיסלייק, 'אהבתי' ו'לא אהבתי' כדי להחיל זאת על כל השירים ברשימת השמעה או אלבום",
@@ -581,11 +588,31 @@
         "presets": {
           "label": "הגדרות קבועות מראש",
           "list": {
-            "bass-booster": "מגבר בס"
+            "bass-booster": "מגבר בס",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "אקולייזר"
+      "name": "אקולייזר",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "הופך את מחוון עוצמת הקול לאקספוננציאלית כך שיהיה קל יותר לבחור עוצמות קול נמוכות יותר.",

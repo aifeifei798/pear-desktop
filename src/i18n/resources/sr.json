@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Ukoliko dođe do prikaza reklame, zvuk se prigušuje i podešava se brzina na 16x",
-      "name": "Ubrzanje reklama"
+      "name": "Ubrzanje reklama",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Dodaje mogućnost primene opcija 'Sviđa mi se, ne sviđa mi se' kao i opciju njihovog poništenja na nivou plejliste ili albuma",
@@ -564,11 +571,31 @@
         "presets": {
           "label": "Predefinisana podešavanja",
           "list": {
-            "bass-booster": "Pojačivač basa"
+            "bass-booster": "Pojačivač basa",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Ekvilajzer"
+      "name": "Ekvilajzer",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Postavlja slajder jačine kao eksponencijalan radi lakšeg izbora nižih jačina.",

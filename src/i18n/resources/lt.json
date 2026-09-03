@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Jeigu gros reklama, įrašo garsas bus išjungtas ir pagreitintas 16x",
-      "name": "Reklamos Pagreitinimas"
+      "name": "Reklamos Pagreitinimas",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Prideda mygtukus pažymėti „Nepatinka“, „Patinka“, „Atžymėti Nepatinka“ bei „Atžymėti Patinka“ visas dainas grojaraštyje arba albume",
@@ -576,11 +583,31 @@
         "presets": {
           "label": "Išankstiniai nustatymai",
           "list": {
-            "bass-booster": "Žemų dažnių stiprintuvas"
+            "bass-booster": "Žemų dažnių stiprintuvas",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Vienodintuvas"
+      "name": "Vienodintuvas",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Padaro garsumo slankiklį eksponentinį, kad būtų lengviau pasirinkti mažesnį garsumą.",

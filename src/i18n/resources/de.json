@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Wenn eine Werbung spielt, stummt es das Audio und setzt die Wiedergabegeschwindigkeit auf 16x",
-      "name": "Werbungsbeschleunigung"
+      "name": "Werbungsbeschleunigung",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Fügt Undislike, Dislike, Like und Unlike-Knöpfe hinzu, welche sich auf alle Lieder in einer Playlist oder Album auswirken",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "Vorgaben",
           "list": {
-            "bass-booster": "Bass-Verstärker"
+            "bass-booster": "Bass-Verstärker",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Equalizer"
+      "name": "Equalizer",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Macht den Lautstärkeregler exponentiell, damit es einfacher ist leise Lautstärken zu wählen.",

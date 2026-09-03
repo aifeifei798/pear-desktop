@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "إذا تم عرض إعلان, فإن الصوت سيتم كتمانه وسيتم وضع سرعة التشغيل الى 16x",
-      "name": "تسريع الإعلان"
+      "name": "تسريع الإعلان",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "يضيف أزرار \"إلغاء عدم الاعجاب\" و\"عدم الاعجاب\" و\"الإعجاب\" و\"إلغاء الإعجاب\" لتطبيق ذلك على جميع الأغاني في قائمة تشغيل أو ألبوم",
@@ -582,11 +589,31 @@
         "presets": {
           "label": "إعدادات مسبقة",
           "list": {
-            "bass-booster": "مزود البيس"
+            "bass-booster": "مزود البيس",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "معادل صوتي"
+      "name": "معادل صوتي",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "يجعل شريط تمرير مستوى الصوت أسيًا بحيث يسهل تحديد مستويات الصوت الأقل.",

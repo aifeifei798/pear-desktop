@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Si es reprodueix un anunci, silencia l'àudio i el reprodueix a la velocitat 16x",
-      "name": "Accelera els anuncis"
+      "name": "Accelera els anuncis",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Afegeix botons de «no m'agrada / retirar el no m'agrada» i «m'agrada / retirar el m'agrada» per aplicar-ho a totes les cançons en una llista de reproducció o àlbum",
@@ -576,11 +583,31 @@
         "presets": {
           "label": "Predefinits",
           "list": {
-            "bass-booster": "Augmentar baixos"
+            "bass-booster": "Augmentar baixos",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Equalitzador"
+      "name": "Equalitzador",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Fa que el control lliscant del volum sigui exponencial per que sigui més fàcil seleccionar volums més baixos.",

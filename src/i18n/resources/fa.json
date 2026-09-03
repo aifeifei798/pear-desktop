@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "اگر تبلیغ پخش شود، صدا را بی‌صدا کرده و سرعت پخش را به 16 برابر افزایش می‌دهد",
-      "name": "سرعت‌دهی به تبلیغ"
+      "name": "سرعت‌دهی به تبلیغ",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "اضافه کردن دکمه‌های عدم پسندیدن، پسندیدن و لغو پسندیدن برای اعمال این تغییرات به تمامی آهنگ‌های یک فهرست پخش یا آلبوم",
@@ -563,11 +570,31 @@
         "presets": {
           "label": "تنظیمات از پیش تعیین شده",
           "list": {
-            "bass-booster": "تقویت‌کننده باس صدا"
+            "bass-booster": "تقویت‌کننده باس صدا",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "اکولایزر"
+      "name": "اکولایزر",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "نوار لغزنده حجم را به صورت نمایی می‌سازد تا انتخاب حجم‌های پایین‌تر آسان‌تر شود.",

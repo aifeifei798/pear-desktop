@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Reclamele au sunetul dezactivat si viteza de redare este x16",
-      "name": "Accelerare reclame"
+      "name": "Accelerare reclame",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Adauga butoane pentru Undislike, Like si Unlike pentru toate piesele dintr-un playlist sau album",
@@ -568,11 +575,31 @@
         "presets": {
           "label": "Setări implicite",
           "list": {
-            "bass-booster": "Amplificator de bas"
+            "bass-booster": "Amplificator de bas",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Egalizator"
+      "name": "Egalizator",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Face glisorul de volum exponențial pentru a fi mai ușor de selectat volume reduse.",

@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Bir reklam oynatılırsa sesi kapatır ve oynatma hızını 16x olarak ayarlar",
-      "name": "Reklam Hızlandırma"
+      "name": "Reklam Hızlandırma",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Çalma listesindeki veya albümdeki tüm şarkılara Beğendim ve Beğenmedim düğmeleri ekler",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "Ön Ayarlar",
           "list": {
-            "bass-booster": "Bass güçlendirici"
+            "bass-booster": "Bass güçlendirici",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Ekolayzer"
+      "name": "Ekolayzer",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Ses seviyesi kaydırıcısını üstel hale getirir, böylece daha düşük ses seviyelerini seçmek daha kolay olur.",

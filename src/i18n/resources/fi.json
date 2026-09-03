@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Jos mainos toistuu, mykistä ääni ja aseta toistonopeus 16x:een",
-      "name": "Mainoksen nopeutus"
+      "name": "Mainoksen nopeutus",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Lisää tykkäysnappulat, joilla voit lisätä tai poistaa tykkäyksiä kerralla kaikille soittolistan tai albumin kappaleille",
@@ -526,11 +533,31 @@
         "presets": {
           "label": "Pohjat",
           "list": {
-            "bass-booster": "Bassonlisääjä"
+            "bass-booster": "Bassonlisääjä",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Taajuuskorjain"
+      "name": "Taajuuskorjain",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Tekee äänenvoimakkuuden säätimestä eksponentiaalisen, jotta matalampien äänenvoimakkuuksien valinta on helpompaa.",

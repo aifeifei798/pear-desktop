@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "광고가 재생될 때 소리를 음소거하고 재생 속도를 16배로 설정합니다",
-      "name": "광고 배속"
+      "name": "광고 배속",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "좋아요, 싫어요 버튼을 추가하고, 결과를 재생 목록 또는 앨범의 모든 노래에 적용합니다",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "프리셋",
           "list": {
-            "bass-booster": "베이스 부스터"
+            "bass-booster": "베이스 부스터",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "이퀄라이저"
+      "name": "이퀄라이저",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "음량 슬라이더를 지수적으로 만들어 더 낮은 음량을 쉽게 선택할 수 있도록 합니다.",

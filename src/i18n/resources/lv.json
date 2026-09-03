@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Ja reklāma atskaņojas, tad skaņa izlēdzas, un ātrums pārslēdzas uz 16x",
-      "name": "Reklāmu paātrinājums"
+      "name": "Reklāmu paātrinājums",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Pievieno Undislike, Dislike, Like, un Unlike pogas lai izdarītu to visām dziesmām Mūzikas sarakstā vai albumā",
@@ -546,11 +553,31 @@
         "presets": {
           "label": "Iepriekšiestatījumi",
           "list": {
-            "bass-booster": "Basu pastiprinātājs"
+            "bass-booster": "Basu pastiprinātājs",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Ekvalaizers"
+      "name": "Ekvalaizers",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Padara skaļuma slīdni eksponenciālu, lai būtu vieglāk izvēlēties zemākus skaļumus.",

@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Si se reproduce un anuncio, silencia el audio y fija la velocidad de reproducción en 16x",
-      "name": "Aumento de la velocidad de anuncios"
+      "name": "Aumento de la velocidad de anuncios",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Añade los botones \"Quitar no me gusta\", \"No me gusta\", \"Me gusta\" y \"Quitar me gusta\" para aplicarlos a todas las canciones de una lista de reproducción o un álbum",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "Ajustes preestablecidos",
           "list": {
-            "bass-booster": "Amplificador de graves"
+            "bass-booster": "Amplificador de graves",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Ecualizador"
+      "name": "Ecualizador",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Hace que la barra de volumen sea exponencial para que sea más fácil seleccionar volúmenes más bajos.",

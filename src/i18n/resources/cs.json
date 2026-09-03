@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Pokud se přehraje reklama tak ztlumí zvuk a nastaví rychlost přehrávání na 16x",
-      "name": "Zrychlovač Reklam"
+      "name": "Zrychlovač Reklam",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Přidává Undislike, Dislike, Like, a Unlike tlačítka k aplikování tohoto ke všem písničkám v seznamu písniček nebo albumu",
@@ -547,11 +554,31 @@
         "presets": {
           "label": "Předvolby",
           "list": {
-            "bass-booster": "Zesílení basů"
+            "bass-booster": "Zesílení basů",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Ekvalizér"
+      "name": "Ekvalizér",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Dělá posuvník hlasitosti exponenciální, takže je snazší vybrat nižší hlasitost.",

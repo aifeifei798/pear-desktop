@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Si une publicité apparaît, le son est coupé et la vitesse de lecture est réglée sur 16x",
-      "name": "Accélérer les publicités"
+      "name": "Accélérer les publicités",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Ajoute les boutons Dislike, Undislike, Like, et Unlike à appliquer sur toutes les chansons dans un playlist ou un album.",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "Préréglages",
           "list": {
-            "bass-booster": "Amplificateur de basses"
+            "bass-booster": "Amplificateur de basses",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Égaliseur"
+      "name": "Égaliseur",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Rend le curseur de volume exponentiel afin qu'il soit plus facile de sélectionner des volumes plus faibles.",

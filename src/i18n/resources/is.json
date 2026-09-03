@@ -209,7 +209,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Ef auglýsing spilar slökknar hún á hljóðinu og stillir spilunarhraðann á 16x",
-      "name": "Auglýsingahraða"
+      "name": "Auglýsingahraða",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Bætir Ódíslika, Mislíkt, Líkt, og Ólíkt til að nota þetta á öll lög á spilunarlista eða albúm",
@@ -801,6 +808,34 @@
         "visualizer-type": "Sýndarstýringartegund"
       },
       "name": "Sýndarstýringar"
+    },
+    "equalizer": {
+      "menu": {
+        "presets": {
+          "list": {
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
+          }
+        }
+      },
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     }
   }
 }

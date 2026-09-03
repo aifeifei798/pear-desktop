@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "При програванні реклами звук вимикається і встановлюється швидкість відтворення 16х",
-      "name": "Пришвидшення реклами"
+      "name": "Пришвидшення реклами",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Додати андізлайк, дізлайк, лайк та анлайк кнопки щоб застосувати це до всіх пісень в плейлисті або альбомі",
@@ -580,11 +587,31 @@
         "presets": {
           "label": "Шаблони",
           "list": {
-            "bass-booster": "Підсилювач басів"
+            "bass-booster": "Підсилювач басів",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Еквалайзер"
+      "name": "Еквалайзер",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Робить регулятор гучності експоненціальним, що полегшує вибір тихих рівнів гучності.",

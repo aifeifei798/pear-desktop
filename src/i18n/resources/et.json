@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Reklaami esitamisel summutatakse heli ja keritakse edasi 16-kordse kiirusega",
-      "name": "Reklaamikiirendaja"
+      "name": "Reklaamikiirendaja",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Lisab Undislike, Ebameeldiv, Meeldiv ja Unlike nupud selle rakendamiseks kõikidele loendisse või albumisse kuuluvatele lauludele.",
@@ -353,6 +360,34 @@
     },
     "tuna-obs": {
       "description": "Lõimimine OBSi Tuna lisamooduliga"
+    },
+    "equalizer": {
+      "menu": {
+        "presets": {
+          "list": {
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
+          }
+        }
+      },
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     }
   }
 }

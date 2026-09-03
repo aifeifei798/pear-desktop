@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Εάν ξεκινήσει διαφήμιση, ο ήχος απενεργοποιείται και η ταχύτητα αναπαραγωγής ορίζεται σε 16x",
-      "name": "Επιτάχυνση διαφημίσεων"
+      "name": "Επιτάχυνση διαφημίσεων",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Προσθέτει κουμπιά Like/Unlike και Dislike/Undislike που δρουν συνολικά σε όλα τα κομμάτια μιας playlist ή ενός άλμπουμ",
@@ -527,11 +534,31 @@
         "presets": {
           "label": "Προεπιλογές",
           "list": {
-            "bass-booster": "Ενίσχυση μπάσου"
+            "bass-booster": "Ενίσχυση μπάσου",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Ισοσταθμιστής"
+      "name": "Ισοσταθμιστής",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Κάνει το ρυθμιστικό έντασης εκθετικό, ώστε να είναι ευκολότερη η επιλογή χαμηλότερων εντάσεων.",

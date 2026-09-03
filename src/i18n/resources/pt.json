@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Se um anúncio for reproduzido, silencia o áudio e define a velocidade de reprodução para 16x",
-      "name": "Acelerador de anúncios"
+      "name": "Acelerador de anúncios",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Adiciona os botões \"Anular Não gosto\", \"Não gosto\", \"Gosto\" e \"Não gosto\" para aplicar a todas as músicas de uma lista de reprodução ou álbum",
@@ -576,11 +583,31 @@
         "presets": {
           "label": "Predefinições",
           "list": {
-            "bass-booster": "Amplificador de graves"
+            "bass-booster": "Amplificador de graves",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Equalizador"
+      "name": "Equalizador",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Controlo do volume exponencial para que seja mais fácil selecionar volumes mais baixos",

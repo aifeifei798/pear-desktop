@@ -209,7 +209,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Če se predvaja oglas se zvok utišja. Prav tako se hitrost predvajanja nastavi na 16 krat",
-      "name": "Pospeševanje oglasov"
+      "name": "Pospeševanje oglasov",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Doda Undislike, Dislike, Like, in Unlike gumbe vsem glasbam v seznamu predvajanja ali albumu",
@@ -540,6 +547,34 @@
         "host-failed": "Gkasba Skupaj nisem mogel gostiti",
         "id-copied": "Host ID je kopiran v odložišče",
         "id-copy-failed": "Host ID ni bilo mogoče kopirati"
+      }
+    },
+    "equalizer": {
+      "menu": {
+        "presets": {
+          "list": {
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
+          }
+        }
+      },
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
       }
     }
   }

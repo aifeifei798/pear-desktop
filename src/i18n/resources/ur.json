@@ -215,7 +215,42 @@
   "plugins": {
     "ad-speedup": {
       "description": "اگر کوئی اشتہار چلے تو آواز بند کرکے پلے بیک کی رفتار 16 گناہ کردیں",
-      "name": "اشتہار کی رفتار"
+      "name": "اشتہار کی رفتار",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
+    },
+    "equalizer": {
+      "menu": {
+        "presets": {
+          "list": {
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
+          }
+        }
+      },
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     }
   }
 }

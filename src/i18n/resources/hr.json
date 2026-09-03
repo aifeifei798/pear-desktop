@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Ako se pokrene oglas, zvuk se isključi i brzina reprodukcije se postavi na 16x",
-      "name": "Ubrzanje Oglasa"
+      "name": "Ubrzanje Oglasa",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Dodaje tipke za 'Ne sviđa mi se', 'Sviđa mi se' i 'Dislike'/'Like' za primjenu na sve pjesme u playlisti ili albumu",
@@ -564,11 +571,31 @@
         "presets": {
           "label": "Zadane postavke",
           "list": {
-            "bass-booster": "Pojačivač basa"
+            "bass-booster": "Pojačivač basa",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Ekvalizator"
+      "name": "Ekvalizator",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Čini klizač glasnoće (volume slider) eksponencijalnim za lakši odabir niže glasnoće.",

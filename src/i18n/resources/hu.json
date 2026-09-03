@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Ha egy hirdetés elindul, elnémítja a hangot, és a lejátszási sebességet 16x-ra állítja",
-      "name": "Hirdetésgyorsítás"
+      "name": "Hirdetésgyorsítás",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Hozzáadja a Tetszik, Nem tetszik és ezek visszavonására szolgáló gombokat, hogy ezeket az összes dalra alkalmazhasd egy lejátszási listán vagy albumban",
@@ -545,11 +552,31 @@
         "presets": {
           "label": "Hangprofil",
           "list": {
-            "bass-booster": "Basszuskiemelés"
+            "bass-booster": "Basszuskiemelés",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Hangszínszabályzó"
+      "name": "Hangszínszabályzó",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Az hangerő csúszka exponenciálissá tételével könnyebbé válik az alacsony hangerő kiválasztása.",

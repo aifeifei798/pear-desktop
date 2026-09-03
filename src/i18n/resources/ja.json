@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "広告が再生されると、自動的にミュートされ、再生速度が16倍に設定されます",
-      "name": "広告のスピードを上げる"
+      "name": "広告のスピードを上げる",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "「Undislike（嫌いではない）」「Dislike（嫌い）」「Like（好き）」「Unlike（好きではない）」ボタンを追加し、プレイリストやアルバム内のすべての曲にこれらを適用します",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "プリセット",
           "list": {
-            "bass-booster": "ベースブースター"
+            "bass-booster": "ベースブースター",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "イコライザー"
+      "name": "イコライザー",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "音量スライダを指数関数的にさせ、低い音量に設定しやすくなります。",

@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Nếu một quảng cáo được phát thì sẽ bị tắt tiếng và tăng tốc độ phát lên 16x",
-      "name": "Tăng tốc quảng cáo"
+      "name": "Tăng tốc quảng cáo",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Thêm nút Hủy không thích, Không thích, Thích và Hủy thích để áp dụng cho tất cả bài hát trong danh sách phát hoặc album",
@@ -576,11 +583,31 @@
         "presets": {
           "label": "Thiết lập có sẵn",
           "list": {
-            "bass-booster": "Tăng âm trầm"
+            "bass-booster": "Tăng âm trầm",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Bộ chỉnh âm"
+      "name": "Bộ chỉnh âm",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Làm cho thanh trượt âm lượng theo cấp số nhân để dễ dàng chọn âm lượng thấp hơn.",

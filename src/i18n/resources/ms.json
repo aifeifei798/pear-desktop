@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Jika iklan dimainkan, ia meredamkan audio dan menetapkan kelajuan main semula kepada 16x",
-      "name": "Kelajuan Iklan"
+      "name": "Kelajuan Iklan",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Menambah butang Suka dan Tidak Suka pada semua lagu dalam senarai main atau album",
@@ -547,8 +554,28 @@
         "presets": {
           "label": "Pratetap",
           "list": {
-            "bass-booster": "Penggalak bass"
+            "bass-booster": "Penggalak bass",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
+        }
+      },
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
         }
       }
     },

@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Wycisza reklamę i przyśpiesza do 16x",
-      "name": "Przyśpieszacz reklam"
+      "name": "Przyśpieszacz reklam",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Dodaje przyciski łapek w górę i dół do wszystkich piosenek podczas w albumach lub listach odtwarzania",
@@ -576,11 +583,31 @@
         "presets": {
           "label": "Presety",
           "list": {
-            "bass-booster": "Wzmacniacz basu"
+            "bass-booster": "Wzmacniacz basu",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Korektor"
+      "name": "Korektor",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Sprawia, że suwak głośności jest proporcjonalna, dzięki czemu łatwiej jest wybrać niższą głośność.",

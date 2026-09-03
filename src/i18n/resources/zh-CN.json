@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "使用静音以及 16 倍速播放跳过广告片段",
-      "name": "广告加速跳过"
+      "name": "广告加速跳过",
+      "menu": {
+        "mute-audio": "广告期间静音",
+        "auto-skip": "自动点击跳过按钮",
+        "speed": {
+          "label": "广告期间播放速度"
+        }
+      }
     },
     "album-actions": {
       "description": "添加作用于播放列表或专辑中所有歌曲的全局“点赞/取消点赞”与“喜欢/取消喜欢”按钮",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "预设",
           "list": {
-            "bass-booster": "低音增强器"
+            "bass-booster": "低音增强器",
+            "flat": "平直",
+            "treble-booster": "高音增强",
+            "vocal": "人声",
+            "pop": "流行",
+            "rock": "摇滚",
+            "jazz": "爵士",
+            "classical": "古典",
+            "electronic": "电子",
+            "hip-hop": "嘻哈",
+            "custom": "自定义"
           }
         }
       },
-      "name": "均衡器"
+      "name": "均衡器",
+      "renderer": {
+        "button": {
+          "label": "均衡器"
+        },
+        "panel": {
+          "title": "均衡器",
+          "preset": "预设",
+          "reset": "重置"
+        }
+      }
     },
     "exponential-volume": {
       "description": "让音量滑块指数化以便选择更低的音量。",

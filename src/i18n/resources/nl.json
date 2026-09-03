@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Bij het afspelen van een advertentie wordt het geluid gedempt en wordt de afspeelsnelheid wordt verhoogd naar 16x",
-      "name": "Advertenties versnellen"
+      "name": "Advertenties versnellen",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Voegt niet-Niet Leuk, Niet Leuk, Leuk, niet-Leuk knoppen toe om dit toe te passen op alle nummers in een afspeellijst of album",
@@ -573,11 +580,31 @@
         "presets": {
           "label": "Voorinstellingen",
           "list": {
-            "bass-booster": "Basversterker"
+            "bass-booster": "Basversterker",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Equalizer"
+      "name": "Equalizer",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Maakt de volumeschuif exponentieel zodat het gemakkelijker is om lagere volumes te selecteren.",

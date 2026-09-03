@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "หากมีโฆษณาเล่นขึ้น เสียงจะถูกปิดและตั้งความเร็วในการเล่นเป็น 16 เท่า",
-      "name": "เพิ่มความเร็วโฆษณา"
+      "name": "เพิ่มความเร็วโฆษณา",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "เพิ่ม ยกเลิกไม่ชอบ, ไม่ชอบ, ถูกใจ, และ ยกเลิกถูกใจ ที่มีผลกับเพลงทั้งหมดในรายการเพลงหรืออัลบั้ม",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "การตั้งค่าล่วงหน้า",
           "list": {
-            "bass-booster": "เพิ่มเบส"
+            "bass-booster": "เพิ่มเบส",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "อีควอไลเซอร์"
+      "name": "อีควอไลเซอร์",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "ทำให้ตัวเลือกความดังมีลักษณะเอ็กซ์โปเนนเชียล เพื่อให้ง่ายต่อการเลือกระดับความดังที่ต่ำลง",

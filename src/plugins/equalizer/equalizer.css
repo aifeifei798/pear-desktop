@@ -1,0 +1,88 @@
+.peard-eq-panel {
+  z-index: 999;
+  position: fixed;
+  right: 16px;
+  bottom: 96px;
+  width: 264px;
+  padding: 12px 14px 14px;
+  border-radius: 12px;
+  background: var(--ytmusic-background, #212121);
+  border: 1px solid var(--ytmusic-border-color, rgba(255, 255, 255, 0.12));
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  color: var(--ytmusic-text-primary, #fff);
+  font-size: 12px;
+}
+
+.peard-eq-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.peard-eq-panel-close {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 2px 6px;
+}
+
+.peard-eq-preset-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.peard-eq-preset-select {
+  flex: 1;
+  background: var(--ytmusic-background-chrome, #030303);
+  color: inherit;
+  border: 1px solid var(--ytmusic-border-color, rgba(255, 255, 255, 0.12));
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+.peard-eq-reset {
+  background: none;
+  border: 1px solid var(--ytmusic-border-color, rgba(255, 255, 255, 0.12));
+  border-radius: 6px;
+  color: inherit;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.peard-eq-band {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0;
+}
+
+.peard-eq-freq {
+  width: 44px;
+  flex-shrink: 0;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+.peard-eq-band input[type='range'] {
+  flex: 1;
+  accent-color: var(--yt-spec-call-to-action, #f03);
+  cursor: pointer;
+}
+
+.peard-eq-gain {
+  width: 52px;
+  flex-shrink: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.9;
+}

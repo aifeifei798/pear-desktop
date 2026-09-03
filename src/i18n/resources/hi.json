@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "यदि कोई विज्ञापन चलता है तो यह ऑडियो को म्यूट कर देता है और प्लेबैक गति 16x पर सेट कर देता है",
-      "name": "विज्ञापन की गति बढ़ाना"
+      "name": "विज्ञापन की गति बढ़ाना",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "प्लेलिस्ट या एल्बम के सभी गानों पर लागू करने के लिए \"अंडिसलाइक,\" \"डिसलाइक,\" \"लाइक,\" और \"अनलाइक\" बटन जोड़ता है",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "प्रीसेट",
           "list": {
-            "bass-booster": "bass वर्धक"
+            "bass-booster": "bass वर्धक",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "एक्विलाइज़र"
+      "name": "एक्विलाइज़र",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "वॉल्यूम स्लाइडर को घातांकीय बनाता है ताकि कम वॉल्यूम का चयन करना आसान हो।",

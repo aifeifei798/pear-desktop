@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Jika iklan diputar, audio akan dimatikan dan kecepatan pemutaran akan diatur ke 16x",
-      "name": "Percepatan Iklan"
+      "name": "Percepatan Iklan",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Tambah tombol Suka, Batal Suka, Tidak Suka dan Batal Tidak Suka untuk diterapkan ke semua lagu dalam daftar putar atau album",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "Prasetel",
           "list": {
-            "bass-booster": "Penguat Bass"
+            "bass-booster": "Penguat Bass",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Ekualiser"
+      "name": "Ekualiser",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Buat penggeser volume menjadi eksponen sehingga memudahkan memilih volume yang lebih rendah.",

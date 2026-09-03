@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "თუ რეკლამა ჩაირთვება ხმას თიშავს და 16-ჯერ აჩქარებს",
-      "name": "რეკლამის აჩქარება"
+      "name": "რეკლამის აჩქარება",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "ამატებს დისლაიქის მოხსნას, დისლაიქს, ლაიქს და განლაიქების ღილაკებს რომელიც ეხება სიმღერებს მთლიან ფლეილისთში ან ალბომებში",
@@ -527,11 +534,31 @@
       "menu": {
         "presets": {
           "list": {
-            "bass-booster": "ბასის გამაძლიერებელი"
+            "bass-booster": "ბასის გამაძლიერებელი",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "მარეგულირებელი"
+      "name": "მარეგულირებელი",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "in-app-menu": {
       "menu": {

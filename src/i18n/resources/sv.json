@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Om en annons spelas, tystas ljudet och uppspelningshastigheten sätts till 16×",
-      "name": "Snabba upp annonser"
+      "name": "Snabba upp annonser",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Lägger till knappar för Ta bort ogilla-markering, Ogilla, Gilla och Ta bort gilla-markering för alla låtar i en spellista eller ett album",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "Förinställningar",
           "list": {
-            "bass-booster": "Basförstärkning"
+            "bass-booster": "Basförstärkning",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Equalizer"
+      "name": "Equalizer",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Gör volymreglaget exponentiellt så att det blir lättare att välja lägre volymer.",

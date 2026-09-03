@@ -216,7 +216,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "ஒரு விளம்பரம் விளையாடினால் அது ஆடியோவை முடக்குகிறது மற்றும் பின்னணி வேகத்தை 16x ஆக அமைக்கிறது",
-      "name": "விளம்பர விரைவு"
+      "name": "விளம்பர விரைவு",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "பிளேலிச்ட் அல்லது ஆல்பத்தில் உள்ள அனைத்து பாடல்களுக்கும் இதைப் பயன்படுத்த பொத்தான்கள் போன்றவற்றைச் சேர்க்கவும், விரும்பாதது, போன்றவை, மற்றும் பொத்தான்களைப் போலல்லாமல் சேர்க்கவும்",
@@ -547,11 +554,31 @@
         "presets": {
           "label": "முன்னமைவுகள்",
           "list": {
-            "bass-booster": "பாச் பூச்டர்"
+            "bass-booster": "பாச் பூச்டர்",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "சமநிலைப்படுத்தி"
+      "name": "சமநிலைப்படுத்தி",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "தொகுதி ச்லைடர் அதிவேகமானது, எனவே குறைந்த தொகுதிகளைத் தேர்ந்தெடுப்பது எளிது.",

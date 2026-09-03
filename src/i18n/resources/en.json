@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "If an ad play it mutes the audio and sets playback speed to 16x",
-      "name": "Ad Speedup"
+      "name": "Ad Speedup",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Adds Undislike, Dislike, Like, and Unlike buttons to apply this to all songs in a playlist or album",
@@ -583,11 +590,31 @@
         "presets": {
           "label": "Presets",
           "list": {
-            "bass-booster": "Bass booster"
+            "bass-booster": "Bass booster",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Equalizer"
+      "name": "Equalizer",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Makes the volume slider exponential so it's easier to select lower volumes.",

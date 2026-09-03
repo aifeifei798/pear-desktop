@@ -1,34 +1,34 @@
 import { t } from '@/i18n';
 import { createPlugin } from '@/utils';
 
+import equalizerStyle from './equalizer.css?inline';
+import { equalizerPresetNames, flatGains, presetGains } from './presets';
 import {
-  defaultPresets,
-  presetConfigs,
-  type Preset,
-  type FilterConfig,
-} from './presets';
+  onConfigChange,
+  onPlayerApiReady,
+  onRendererStart,
+  onRendererStop,
+} from './renderer';
 
 import type { MenuTemplate } from '@/menu';
 import type { MenuContext } from '@/types/contexts';
 
 export type EqualizerPluginConfig = {
   enabled: boolean;
-  filters: FilterConfig[];
-  presets: { [preset in Preset]: boolean };
+  gains: number[];
+  preset: string;
 };
-
-let appliedFilters: BiquadFilterNode[] = [];
 
 export default createPlugin({
   name: () => t('plugins.equalizer.name'),
   description: () => t('plugins.equalizer.description'),
   restartNeeded: false,
-  addedVersion: '3.7.X',
   config: {
     enabled: false,
-    filters: [],
-    presets: { 'bass-booster': false },
+    gains: flatGains(),
+    preset: 'flat',
   } as EqualizerPluginConfig,
+  stylesheets: [equalizerStyle],
   menu: async ({
     getConfig,
     setConfig,
@@ -39,50 +39,21 @@ export default createPlugin({
       {
         label: t('plugins.equalizer.menu.presets.label'),
         type: 'submenu',
-        submenu: defaultPresets.map((preset) => ({
+        submenu: equalizerPresetNames.map((preset) => ({
           label: t(`plugins.equalizer.menu.presets.list.${preset}`),
           type: 'radio',
-          checked: config.presets[preset],
+          checked: (config.preset || 'flat') === preset,
           click() {
-            setConfig({
-              presets: { ...config.presets, [preset]: !config.presets[preset] },
-            });
+            setConfig({ preset, gains: presetGains(preset) });
           },
         })),
       },
     ];
   },
   renderer: {
-    async start({ getConfig }) {
-      const config = await getConfig();
-
-      document.addEventListener(
-        'peard:audio-can-play',
-        ({ detail: { audioSource, audioContext } }) => {
-          const filtersToApply = config.filters.concat(
-            defaultPresets
-              .filter((preset) => config.presets[preset])
-              .map((preset) => presetConfigs[preset]),
-          );
-          filtersToApply.forEach((filter) => {
-            const biquadFilter = audioContext.createBiquadFilter();
-            biquadFilter.type = filter.type;
-            biquadFilter.frequency.value = filter.frequency; // filter frequency in Hz
-            biquadFilter.Q.value = filter.Q;
-            biquadFilter.gain.value = filter.gain; // filter gain in dB
-
-            audioSource.connect(biquadFilter);
-            biquadFilter.connect(audioContext.destination);
-
-            appliedFilters.push(biquadFilter);
-          });
-        },
-        { once: true, passive: true },
-      );
-    },
-    stop() {
-      appliedFilters.forEach((filter) => filter.disconnect());
-      appliedFilters = [];
-    },
+    start: onRendererStart,
+    stop: onRendererStop,
+    onPlayerApiReady,
+    onConfigChange,
   },
 });

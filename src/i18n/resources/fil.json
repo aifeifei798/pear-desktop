@@ -217,7 +217,14 @@
   "plugins": {
     "ad-speedup": {
       "description": "Pag mag-play ng ad, I-mute ang audio at i-set ang bilis ng playback ng 16x",
-      "name": "Pagbilis ng Ad"
+      "name": "Pagbilis ng Ad",
+      "menu": {
+        "mute-audio": "Mute audio during ads",
+        "auto-skip": "Auto-click skip button",
+        "speed": {
+          "label": "Playback speed during ads"
+        }
+      }
     },
     "album-actions": {
       "description": "Idadagdag ang Undislike, Dislike, Like, at Unlike na button para ilapat ito sa lahat ng kanta sa isang playlist o album",
@@ -571,11 +578,31 @@
         "presets": {
           "label": "Mga Preset",
           "list": {
-            "bass-booster": "Taga-boost ng Bass"
+            "bass-booster": "Taga-boost ng Bass",
+            "flat": "Flat",
+            "treble-booster": "Treble booster",
+            "vocal": "Vocal",
+            "pop": "Pop",
+            "rock": "Rock",
+            "jazz": "Jazz",
+            "classical": "Classical",
+            "electronic": "Electronic",
+            "hip-hop": "Hip-hop",
+            "custom": "Custom"
           }
         }
       },
-      "name": "Equalizer"
+      "name": "Equalizer",
+      "renderer": {
+        "button": {
+          "label": "Equalizer"
+        },
+        "panel": {
+          "title": "Equalizer",
+          "preset": "Preset",
+          "reset": "Reset"
+        }
+      }
     },
     "exponential-volume": {
       "description": "Ginagawang exponential ang volume slider para mas madaling pumili ng mas mababang volume.",
