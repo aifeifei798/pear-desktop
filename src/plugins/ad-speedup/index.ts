@@ -16,44 +16,33 @@ export type AdSpeedupPluginConfig = {
 
 const ADVERT_CLASSES = ['ad-showing', 'ad-interrupting'];
 
+// 扩充现代 YouTube / YTM 的各种跳过按钮类名
 const SKIP_BUTTON_SELECTORS = [
-  'button.ytp-ad-skip-button-modern',
-  'button.ytp-ad-skip-button',
-  'button.ytp-skip-ad-button',
-  '.ytp-ad-skip-button-container button',
-  '.ytp-ad-skip-button-slot button',
+  '.ytp-ad-skip-button-modern',
+  '.ytp-ad-skip-button',
+  '.ytp-skip-ad-button',
+  '.ytp-ad-skip-button-container',
+  '.ytp-ad-skip-button-slot',
   '.ytp-ad-overlay-close-button',
+  '[class*="skip-button"]',
 ];
 
 const SPEEDS = [2, 4, 8, 16];
 
-// Premium upsell surfaces: bottom promo bar + modal trial dialogs
+// Premium 弹窗与横幅样式兜底
 const PROMO_STYLE_ID = 'peard-ad-speedup-promo-style';
-const MEALBAR_CSS = 'ytmusic-mealbar-promo-renderer{display:none!important}';
-
-const DIALOG_SELECTORS = [
-  'yt-confirm-dialog-renderer',
-  'yt-dialog-renderer',
-  'tp-yt-paper-dialog',
-];
-const DIALOG_SELECTOR = DIALOG_SELECTORS.map(
-  (selector) => `ytmusic-popup-container ${selector}`,
-).join(',');
-
-// Matches e.g. "想要畅享无广告干扰的音乐体验？" / "Try Premium free"
-const PREMIUM_RE = /premium|无广告|去广告|ad-free|ad free/i;
-// Negative/dismiss buttons only — never touch the confirm action
-const DISMISS_RE =
-  /不用|不要|不了|谢谢|关闭|取消|稍后|以后|dismiss|close|no thanks|not now|maybe later/i;
-
-const clickSkipButtons = (player: Element) => {
-  for (const selector of SKIP_BUTTON_SELECTORS) {
-    const button = player.querySelector<HTMLButtonElement>(selector);
-    if (button && !button.disabled) {
-      button.click();
-    }
+const MEALBAR_CSS = `
+  ytmusic-mealbar-promo-renderer,
+  ytmusic-bubble-renderer,
+  ytmusic-guide-entry-renderer:has(path[d*="M12 3L2 12h3v8h14v-8h3L12 3z"]), /* Premium 推广入口 */
+  .ytmusic-mealbar-promo-renderer {
+    display: none !important;
   }
-};
+`;
+
+const PREMIUM_RE = /premium|无广告|去广告|ad-free|ad free|试用|trial/i;
+const DISMISS_RE =
+  /不用|不要|不了|谢谢|关闭|取消|稍后|以后|dismiss|close|no thanks|not now|maybe later|skip/i;
 
 let observer: MutationObserver | null = null;
 let promoObserver: MutationObserver | null = null;
@@ -63,8 +52,21 @@ let adActive = false;
 let savedMuted = false;
 let savedPlaybackRate = 1;
 
+/**
+ * 尝试点击跳过按钮
+ */
+const clickSkipButtons = (player: Element) => {
+  for (const selector of SKIP_BUTTON_SELECTORS) {
+    const el = player.querySelector<HTMLElement>(selector);
+    if (el) {
+      // 触发真实点击事件（有的元素是 div 而不是 button，需要派发完整事件）
+      el.click();
+    }
+  }
+};
+
 const scanPlayer = () => {
-  const current = document.querySelector('#movie_player');
+  const current = document.querySelector<HTMLElement>('#movie_player');
   if (current) {
     applyState(current);
   }
@@ -72,9 +74,8 @@ const scanPlayer = () => {
 
 const startScanTimer = () => {
   stopScanTimer();
-  // Safety net: mutations alone can miss the skip button
-  // (e.g. it flips from disabled to enabled without observable churn)
-  scanTimer = window.setInterval(scanPlayer, 500);
+  // 每 200ms 轮询一次以确保广告期间播放不被暂停、跳过按钮能最快被点中
+  scanTimer = window.setInterval(scanPlayer, 200);
 };
 
 const stopScanTimer = () => {
@@ -98,18 +99,34 @@ const updatePromoStyle = () => {
   }
 };
 
+/**
+ * 处理弹窗（全文档扫描，处理包含 Web Components 的结构）
+ */
 const dismissPremiumDialogs = () => {
   if (!activeConfig?.blockPremiumPromo) {
     return;
   }
 
-  const dialogs = document.querySelectorAll(DIALOG_SELECTOR);
+  // 弹窗可能直接在 body 下，也可能在 popup-container 下
+  const dialogs = document.querySelectorAll(
+    'ytmusic-popup-container yt-confirm-dialog-renderer, ytmusic-popup-container yt-dialog-renderer, tp-yt-paper-dialog, ytmusic-you-there-renderer',
+  );
+
   for (const dialog of dialogs) {
-    if (!PREMIUM_RE.test(dialog.textContent ?? '')) {
+    // 处理“你还在听吗？”直接点确定继续听
+    if (dialog.tagName.toLowerCase() === 'ytmusic-you-there-renderer') {
+      const confirmBtn = dialog.querySelector<HTMLElement>('#button, button, yt-button-renderer');
+      confirmBtn?.click();
       continue;
     }
 
-    const buttons = dialog.querySelectorAll('button');
+    const text = dialog.textContent ?? '';
+    if (!PREMIUM_RE.test(text)) {
+      continue;
+    }
+
+    // 优先寻找取消/拒绝按钮
+    const buttons = dialog.querySelectorAll<HTMLElement>('button, yt-button-renderer');
     for (const button of buttons) {
       const label = `${button.textContent ?? ''} ${button.getAttribute('aria-label') ?? ''}`;
       if (DISMISS_RE.test(label)) {
@@ -122,45 +139,80 @@ const dismissPremiumDialogs = () => {
 
 const schedulePromoScan = debounce(() => {
   dismissPremiumDialogs();
-}, 300);
+}, 200);
 
-const applyState = (player: Element) => {
+/**
+ * 广告加速、静音与跳过核心处理
+ */
+const applyState = (player: HTMLElement) => {
   const config = activeConfig;
   if (!config) {
     return;
   }
 
   const video = player.querySelector<HTMLVideoElement>('video');
-  const isAd = ADVERT_CLASSES.some((cls) => player.classList.contains(cls));
+  const moviePlayer = player as unknown as {
+    isMuted?: () => boolean;
+    mute?: () => void;
+    unMute?: () => void;
+  };
+
+  // 判断是否处于广告状态
+  const isAd =
+    ADVERT_CLASSES.some((cls) => player.classList.contains(cls)) ||
+    Boolean(player.querySelector('.ad-showing, .ad-interrupting'));
 
   if (video) {
-    if (isAd && !adActive) {
-      adActive = true;
-      savedMuted = video.muted;
-      savedPlaybackRate = video.playbackRate || 1;
-      video.playbackRate = config.speed;
-      if (config.muteAudio) {
-        video.muted = true;
+    if (isAd) {
+      // 1. 刚进入广告时，备份状态
+      if (!adActive) {
+        adActive = true;
+        savedMuted = moviePlayer.isMuted ? moviePlayer.isMuted() : video.muted;
+        savedPlaybackRate = video.playbackRate || 1;
       }
-    } else if (isAd && adActive) {
-      // YTM may reset these mid-ad, keep enforcing
+
+      // 2. 关键修复：防止广告由于极高倍速被 YouTube 自动暂停，强行恢复播放
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+
+      // 3. 静音：同时设置 video 属性并调用 YTM API
+      if (config.muteAudio) {
+        if (!video.muted) {
+          video.muted = true;
+        }
+        if (moviePlayer.mute && !moviePlayer.isMuted?.()) {
+          moviePlayer.mute();
+        }
+      }
+
+      // 4. 保持倍速
       if (video.playbackRate !== config.speed) {
         video.playbackRate = config.speed;
       }
 
-      if (config.muteAudio && !video.muted) {
-        video.muted = true;
+      // 5. 强力秒跳：如果视频时长允许，直接把当前播放头推到最后
+      if (Number.isFinite(video.duration) && video.duration > 0) {
+        if (video.currentTime < video.duration) {
+          video.currentTime = video.duration;
+        }
       }
-    } else if (!isAd && adActive) {
+    } else if (adActive) {
+      // 广告刚结束，恢复原状态
       adActive = false;
       video.playbackRate = savedPlaybackRate;
+
       if (config.muteAudio) {
         video.muted = savedMuted;
+        if (moviePlayer.unMute && !savedMuted) {
+          moviePlayer.unMute();
+        }
       }
     }
   }
 
-  if (config.autoSkip) {
+  // 尝试点击跳过按钮
+  if (config.autoSkip && isAd) {
     clickSkipButtons(player);
   }
 };
@@ -188,17 +240,15 @@ const onPlayerApiReady = async (
       subtree: true,
     },
   );
-  startScanTimer();
 
-  updatePromoStyle();
-  dismissPremiumDialogs();
+  // 广告期间的高频定时器（负责防暂停和极速跳过）
+  startScanTimer();
 
   promoObserver?.disconnect();
   promoObserver = new MutationObserver(() => {
     schedulePromoScan();
   });
-  const popupRoot = document.querySelector('ytmusic-popup-container');
-  promoObserver.observe(popupRoot ?? document.documentElement, {
+  promoObserver.observe(document.body, {
     childList: true,
     subtree: true,
   });
@@ -210,7 +260,7 @@ const onConfigChange = (newConfig: AdSpeedupPluginConfig) => {
   updatePromoStyle();
   dismissPremiumDialogs();
 
-  const player = document.querySelector('#movie_player');
+  const player = document.querySelector<HTMLElement>('#movie_player');
   if (player) {
     applyState(player);
   }
@@ -229,7 +279,7 @@ const onRendererStop = () => {
     const video = document.querySelector<HTMLVideoElement>(
       '#movie_player video',
     );
-    if (video && activeConfig?.muteAudio) {
+    if (video) {
       video.playbackRate = savedPlaybackRate;
       video.muted = savedMuted;
     }
