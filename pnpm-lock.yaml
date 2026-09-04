@@ -12,6 +12,7 @@ overrides:
   '@electron/universal': 3.0.4
   '@babel/runtime': 8.0.0
   '@xmldom/xmldom@<0.8.12': 0.8.13
+  '@mdui/shared': 1.0.8
 
 patchedDependencies:
   '@malept/flatpak-bundler@0.4.0': c787371eeb2af011ea934e8818a0dad6d7dcb2df31bbb1686babc7231af0183c
@@ -239,8 +240,8 @@ importers:
         specifier: 0.4.0
         version: 0.4.0(patch_hash=c787371eeb2af011ea934e8818a0dad6d7dcb2df31bbb1686babc7231af0183c)(supports-color@7.2.0)
       '@mdui/shared':
-        specifier: ^1.0.9
-        version: 1.0.9
+        specifier: 1.0.8
+        version: 1.0.8
       '@playwright/test':
         specifier: 1.61.1
         version: 1.61.1
@@ -883,8 +884,8 @@ packages:
   '@mdui/jq@3.0.3':
     resolution: {integrity: sha512-nI8QK9UPHhiIbECrC1aMdLXNxP6WgUtC9XwRPs/e56FtwduePyxPyloXmgU8VYw85i6TtYdgClHS9tW8JweNZA==}
 
-  '@mdui/shared@1.0.9':
-    resolution: {integrity: sha512-deB/IaekNZtoI4sSWAvZOTHt5NNgvbKFrGRwSZtFvSP/Ec1+DkHKuFNTAefEvMX4VpUC6C6Xr0uexPI3Dn4AgA==}
+  '@mdui/shared@1.0.8':
+    resolution: {integrity: sha512-YY863fjHBuk8KtiO4uLDm1YyIVdGrWv4xUxfv8jP32WqIQBkSTbV7HN8jnKXXIej0NFP7pU89yGr4GJYzVszPg==}
 
   '@msgpack/msgpack@2.8.0':
     resolution: {integrity: sha512-h9u4u/jiIRKbq25PM+zymTyW6bhTzELvOoUd+AvYriWOAKpLGnIamaET3pnHYoI5iYphAHBI4ayx0MehR+VVPQ==}
@@ -4790,7 +4791,7 @@ snapshots:
 
   '@mdui/icons@1.0.3':
     dependencies:
-      '@mdui/shared': 1.0.9
+      '@mdui/shared': 1.0.8
       lit: 3.3.3
       tslib: 2.8.1
 
@@ -4799,7 +4800,7 @@ snapshots:
       ssr-window: 5.0.1
       tslib: 2.8.1
 
-  '@mdui/shared@1.0.9':
+  '@mdui/shared@1.0.8':
     dependencies:
       '@lit/reactive-element': 2.1.2
       '@mdui/jq': 3.0.3
@@ -6891,7 +6892,7 @@ snapshots:
       '@lit/reactive-element': 2.1.2
       '@material/material-color-utilities': 0.3.0
       '@mdui/jq': 3.0.3
-      '@mdui/shared': 1.0.9
+      '@mdui/shared': 1.0.8
       classcat: 5.0.5
       is-promise: 4.0.0
       lit: 3.3.3
