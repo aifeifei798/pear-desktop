@@ -33,11 +33,12 @@ export const i18nImporter = () => {
           const content = JSON.parse(
             readFileSync(resolve(srcPath, '..', path), 'utf-8'),
           ) as {
+            language?: Record<string, string>;
             translation?: {
               language?: Record<string, string>;
             };
           };
-          displayNames[name] = content.translation?.language ?? {};
+          displayNames[name] = content.language ?? content.translation?.language ?? {};
         } catch {
           displayNames[name] = {};
         }
