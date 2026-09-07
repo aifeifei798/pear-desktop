@@ -82,18 +82,13 @@ jobs:
         run: |
           pnpm release:win
 
-      # Build all packages on forks. Publish to GitHub Releases only on manual dispatch (workflow_dispatch)
-      - name: Release packages on Mac (fork)
-        if: startsWith(matrix.os, 'macOS') && github.repository != 'pear-devs/pear-desktop' && github.event_name == 'workflow_dispatch'
+      # Build and release all packages on forks (auto-publish to GitHub Releases on push and manual dispatch)
+      - name: Build and release packages on Mac (fork)
+        if: startsWith(matrix.os, 'macOS') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pnpm release:mac
-
-      - name: Build packages on Mac (fork)
-        if: startsWith(matrix.os, 'macOS') && github.repository != 'pear-devs/pear-desktop' && github.event_name == 'push'
-        run: |
-          pnpm dist:mac
 
       - name: Install Linux build dependencies (fork)
         if: startsWith(matrix.os, 'ubuntu') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
@@ -106,29 +101,19 @@ jobs:
           sudo flatpak install -y flathub org.freedesktop.Sdk/x86_64/24.08
           sudo flatpak install -y flathub org.electronjs.Electron2.BaseApp/x86_64/24.08
 
-      - name: Release packages on Linux (fork)
-        if: startsWith(matrix.os, 'ubuntu') && github.repository != 'pear-devs/pear-desktop' && github.event_name == 'workflow_dispatch'
+      - name: Build and release packages on Linux (fork)
+        if: startsWith(matrix.os, 'ubuntu') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pnpm release:linux
 
-      - name: Build packages on Linux (fork)
-        if: startsWith(matrix.os, 'ubuntu') && github.repository != 'pear-devs/pear-desktop' && github.event_name == 'push'
-        run: |
-          pnpm dist:linux
-
-      - name: Release packages on Windows (fork)
-        if: startsWith(matrix.os, 'windows') && github.repository != 'pear-devs/pear-desktop' && github.event_name == 'workflow_dispatch'
+      - name: Build and release packages on Windows (fork)
+        if: startsWith(matrix.os, 'windows') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pnpm release:win
-
-      - name: Build packages on Windows (fork)
-        if: startsWith(matrix.os, 'windows') && github.repository != 'pear-devs/pear-desktop' && github.event_name == 'push'
-        run: |
-          pnpm dist:win
 
       - name: Upload packages (fork)
         if: github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
