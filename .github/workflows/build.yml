@@ -82,13 +82,19 @@ jobs:
         run: |
           pnpm release:win
 
-      # Build all packages on forks (push + manual dispatch) without publishing
+      # Build all packages on forks. Publish to GitHub Releases only on manual dispatch (workflow_dispatch)
       - name: Build packages on Mac (fork)
         if: startsWith(matrix.os, 'macOS') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pnpm dist:mac
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            pnpm release:mac
+          else
+            pnpm dist:mac
+          fi
 
-      - name: Build packages on Linux (fork)
+      - name: Install Linux build dependencies (fork)
         if: startsWith(matrix.os, 'ubuntu') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
         run: |
           sudo snap install snapcraft --classic
@@ -98,12 +104,28 @@ jobs:
           sudo flatpak install -y flathub org.freedesktop.Platform/x86_64/24.08
           sudo flatpak install -y flathub org.freedesktop.Sdk/x86_64/24.08
           sudo flatpak install -y flathub org.electronjs.Electron2.BaseApp/x86_64/24.08
-          pnpm dist:linux
 
-      - name: Build packages on Windows (fork)
-        if: startsWith(matrix.os, 'windows') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
+      - name: Build/release packages on Linux (fork)
+        if: startsWith(matrix.os, 'ubuntu') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pnpm dist:win
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            pnpm release:linux
+          else
+            pnpm dist:linux
+          fi
+
+      - name: Build/release packages on Windows (fork)
+        if: startsWith(matrix.os, 'windows') && github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            pnpm release:win
+          else
+            pnpm dist:win
+          fi
 
       - name: Upload packages (fork)
         if: github.repository != 'pear-devs/pear-desktop' && github.event_name != 'pull_request'
